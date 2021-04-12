@@ -12,17 +12,11 @@ pipeline {
                 }
             }
         }
-        stage('Deploy in Staging Environment'){
-            steps {
-                build job: 'Deploy_Application_Staging_Env'
-            }
-        }
-        stage('Deploy to Production'){
+        stage('Create Tomcat Docker Image'){
             steps{
-                timeout(time:5, unit:'DAYS'){
-                    input message:'Approve PRODUCTION Deployment?'
-                }
-                build job: 'dp'
+                sh "pwd"
+                sh "ls -a"
+                sh "docker build./java-tomcat-sample-docker -t tomcatsamplewebapp:${env.BUILD_ID}"
             }
         }
 
